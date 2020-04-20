@@ -21,6 +21,8 @@
 
 (use-package lsp-mode
   :ensure t
+  :config
+  (setq lsp-enable-file-watchers nil)
   :commands (lsp lsp-deferred)
   :hook (go-mode . lsp-deferred))
 
