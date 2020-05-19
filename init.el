@@ -70,6 +70,44 @@
 (use-package gotest
   :ensure t)
 
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  ;; company is an optional dependency. You have to
+  ;; install it separately via package-install
+  ;; `M-x package-install [ret] company`
+  (company-mode +1))
+
+;; aligns annotation to the right hand side
+(setq company-tooltip-align-annotations t)
+
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+;; enable typescript-tslint checker
+(flycheck-add-mode 'typescript-tslint 'web-mode)
+
+(use-package prettier-js
+  :ensure t
+  :init
+  (add-hook 'web-mode-hook 'prettier-js-mode)
+  (add-hook 'typescript-mode-hook 'prettier-js-mode)
+  )
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -77,7 +115,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (gotest flycheck company-lsp lsp-ui lsp-mode direnv company go-mode protobuf-mode))))
+    (prettier-js editorconfig web-mode tide gotest flycheck company-lsp lsp-ui lsp-mode direnv company go-mode protobuf-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
