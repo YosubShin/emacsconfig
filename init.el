@@ -79,6 +79,12 @@
   :config
   (editorconfig-mode 1))
 
+(use-package typescript-mode
+  :ensure t)
+
+(use-package tide
+  :ensure t)
+
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
