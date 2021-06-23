@@ -119,6 +119,11 @@
   (add-hook 'typescript-mode-hook 'prettier-js-mode)
   )
 
+;; mac keybindings
+(setq mac-emulate-three-button-mouse nil)
+(setq mac-option-modifier 'meta)
+(setq mac-command-modifier '(:ordinary super :button 2))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
